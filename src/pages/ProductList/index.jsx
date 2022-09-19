@@ -5,9 +5,15 @@ import styled from '@emotion/styled'
 
 function ProductsList() {
     const navigate = useNavigate()
-    const {products, setProducts} = useContext(productData);
+    const {products} = useContext(productData);
+    const {card, setCard} = useContext(productData);
 
-    console.log(products);
+    function onAdd(id) {
+        let result = products.find(p => p.id === id);
+        if(result){
+            setCard([result, ...card])
+        }
+    }
 
     return (
         <Table>
@@ -18,6 +24,8 @@ function ProductsList() {
                 <th>Name</th>
                 <th>Reorder level</th>
                 <th>Unit price</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -32,9 +40,9 @@ function ProductsList() {
                         <td onClick={() => navigate(`/productDetail/${product.id}`)}>
                             <Detail>Detail</Detail>
                         </td>
-                        {/* <td onClick={() => handleDelete(product.id)}>
-                            <Delete>X</Delete>
-                        </td> */}
+                        <td onClick={() => onAdd(product.id)}>
+                            <Add>add to cart</Add>
+                        </td>
                     </tr>
                 })
             }
@@ -49,11 +57,11 @@ export default ProductsList;
 
 //-------------style---------
 
-const Delete = styled.button`
+const Add = styled.button`
   padding: 5px 10px;
   text-align: start;
   color: white;
-  background-color: red;
+  background-color: darkgreen;
   border-radius: 3px;
   border: none;
   cursor: pointer;

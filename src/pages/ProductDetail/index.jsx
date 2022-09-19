@@ -1,15 +1,24 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {productData} from '../../Contex';
+import React, {useEffect, useState} from 'react';
 import {useParams, useNavigate} from "react-router-dom";
 import styled from '@emotion/styled';
+import axios from "axios";
 
 function ProductDetail() {
     const params = useParams();
-    const [detailSupplier, setDetailSupplier] = useState({});
-    const {productsID, setProductsID} = useContext(productData);
+    const [detailProduct, setDetailProduct] = useState({});
     const navigate = useNavigate();
 
-    
+    useEffect(() => {
+        axios(`https://northwind.vercel.app/api/products/${params.id}`).then(result => {
+            setDetailProduct(result.data);
+        })
+    }, [])
+
+
+    if (!Object.keys(detailProduct).length) {
+        return null;
+    }
+
     return (
         <Container>
             <div>
@@ -18,23 +27,23 @@ function ProductDetail() {
             </div>
             <div>
                 <h3>ID:</h3>
-                <p>{productsID.id}</p>
+                <p>{detailProduct.id}</p>
             </div>
             <div>
                 <h3>Company Name:</h3>
-                <p>{productsID.name}</p>
+                <p>{detailProduct.name}</p>
             </div>
             <div>
                 <h3>Contact Name:</h3>
-                <p>{productsID.quantityPerUnit}</p>
+                <p>{detailProduct.quantityPerUnit}</p>
             </div>
             <div>
                 <h3>Contact Name:</h3>
-                <p>{productsID.reorderLevel}</p>
+                <p>{detailProduct.reorderLevel}</p>
             </div>
             <div>
                 <h3>City</h3>
-                <p>{productsID.unitPrice}</p>
+                <p>{detailProduct.unitPrice}</p>
             </div>
         </Container>
     );

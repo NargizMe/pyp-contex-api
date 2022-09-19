@@ -1,6 +1,6 @@
-import React from 'react';
-import AddProduct from '../AddProduct';
-import ProductList from '..//ProductList';
+import React, {useContext} from 'react';
+import AddProductToCard from '../AddProductToCard';
+import ProductList from '../ProductList';
 import ProductDetail from '../ProductDetail';
 import styled from '@emotion/styled'
 
@@ -9,24 +9,26 @@ import {
     Routes,
     Link,
 } from "react-router-dom";
+import {productData} from "../../Contex";
+
 
 function Home() {
-    // console.time('filter array');
-    // console.timeEnd('filter array');
+    const {card} = useContext(productData);
+
     return (
         <>
             <NavBar>
                 <ul>
                     <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/productDetail/:id'>Product Detail</Link></li>
-                    <li><Link to='/addProduct'>Add Product</Link></li>
+                    <li><Link to='/addProductToCard/:id'>Card</Link></li>
+                    <li>Basket {card.length}</li>
                 </ul>
             </NavBar>
 
             <Routes>
                 <Route path="/" element={<ProductList />} />
                 <Route path="/productDetail/:id" element={<ProductDetail />} />
-                <Route path="/addProduct" element={<AddProduct />} />
+                <Route path="/addProductToCard/:id" element={<AddProductToCard />} />
             </Routes>
 
             <Footer>
