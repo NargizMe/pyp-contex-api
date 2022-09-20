@@ -10,9 +10,7 @@ function ProductsList() {
 
     function onAdd(id) {
         let result = products.find(p => p.id === id);
-        if(result){
             setCard([result, ...card])
-        }
     }
 
     return (
